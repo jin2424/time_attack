@@ -1,13 +1,3 @@
-class Subnet{
-
-}
-class GateWay{
-
-}
-class RouteTable{
-
-}
-
 public class Main {
     public static void main(String[] args) {
         Subnet subnet_a = new Subnet(1,"172.31.0.0/20","ap-northeast-2a");
@@ -16,8 +6,7 @@ public class Main {
         Subnet subnet_d = new Subnet(4,"172.31.48.0/20","ap-northeast-2d");
 
         GateWay internetGateWay = new InternetGateWay();
-        //GateWay natGateWay = new NatGateWay(subnet_d); // infinity loop error
-        GateWay natGateWay = new NatGateWay(subnet_a); // success
+        GateWay natGateWay = new NatGateWay(subnet_a);
         RouteTable publicRouteTable = new RouteTable();
         RouteTable privateRouteTable = new RouteTable();
 
@@ -25,7 +14,6 @@ public class Main {
         publicRouteTable.addSubnet(subnet_a);
         publicRouteTable.addSubnet(subnet_b);
         publicRouteTable.addSubnet(subnet_c);
-
 
         privateRouteTable.setGateWay(natGateWay);
         privateRouteTable.addSubnet(subnet_d);
