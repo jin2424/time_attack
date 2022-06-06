@@ -1,5 +1,7 @@
-import java.sql.SQLOutput;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 class Calculator
 {
@@ -8,24 +10,67 @@ class Calculator
     public int intersection(int[] A, int[] B)
     {
         int result = 0;
-        // todo
-        if (A==B){
-
+        // for
+        for(int i = 0; i < A.length; i++) {
+            for(int j = 0; j < B.length; j++) {
+                if(A[i] == B[j]) {
+                    result += A[i];
+                    break;
+                }
+            }
         }
+
+        // list
+        result = 0;
+        List<Integer> listA = Arrays.stream(A)
+                .boxed()
+                .collect(Collectors.toList());
+        List<Integer> listB = Arrays.stream(B)
+                .boxed()
+                .collect(Collectors.toList());
+
+        listA.retainAll(listB);
+
+        result = listA.stream().mapToInt(Integer::intValue).sum();
         return result;
     }
+
     // Sum of A - B
     public int differenceOfSet(int[] A, int[] B)
     {
         int result = 0;
-        // todo
-        if (A!=B){
 
+        // for
+        boolean check = true;
+        for(int i = 0; i < A.length; i++) {
+            for(int j = 0; j < B.length; j++) {
+                if(A[i] == B[j]) {
+                    check = false;
+                    break;
+                }
+            }
+            if(check) {
+                result += A[i];
+            }
+            check = true;
         }
 
+        // list
+        result = 0;
+        List<Integer> listA = Arrays.stream(A)
+                .boxed()
+                .collect(Collectors.toList());
+        List<Integer> listB = Arrays.stream(B)
+                .boxed()
+                .collect(Collectors.toList());
+
+        listA.removeAll(listB);
+
+        result = listA.stream().mapToInt(Integer::intValue).sum();
         return result;
     }
 }
+
 class Minesweeper
 {
     public static int MAP_X = 10;
@@ -34,21 +79,51 @@ class Minesweeper
     private int numOfpick;
     public Minesweeper(int[][] map) { this.map = map; this.numOfpick = 0;}
 
+    private int markMap(int x, int y)
+    {
+        if(x >= MAP_X || y >= MAP_Y || x < 0 || y < 0) return 0;
+        else if(map[x][y] == 1) return 1;
+        else {
+            map[x][y] = 2;
+        }
+        return 0;
+    }
+
     public int pick(int x, int y)
     {
         int numOfMine = 0;
-        // todo
+
+        if(map[x][y] == 1) return -1;
+
+        map[x][y] = 2;
+        numOfMine += markMap(x+1,y);
+        numOfMine += markMap(x-1,y);
+        numOfMine += markMap(x,y+1);
+        numOfMine += markMap(x,y-1);
+        numOfMine += markMap(x+1,y+1);
+        numOfMine += markMap(x+1,y-1);
+        numOfMine += markMap(x-1,y+1);
+        numOfMine += markMap(x-1,y-1);
+
+        this.numOfpick++;
         return numOfMine;
     }
+
     public int getNumOfpick()
     {
         return numOfpick;
     }
+
     public boolean checkMap()
     {
-        // todo
-        return false;
+        for(int i = 0; i < MAP_X; i++) {
+            for(int j = 0; j < MAP_Y; j++) {
+                if(map[i][j] == 0) return false;
+            }
+        }
+        return true;
     }
+
     public void printMap() {
         for(int i = 0; i < MAP_X; i++) {
             for(int j = 0; j < MAP_Y; j++) {
@@ -58,7 +133,9 @@ class Minesweeper
         }
     }
 }
+
 public class Main {
+
     public static void main(String[] args)
     {
         Calculator calculator = new Calculator();
@@ -84,7 +161,7 @@ public class Main {
         System.out.println("Minesweeper start!!!");
         System.out.println("----------------------------------------------------");
         minesweeper.printMap();
-        while(minesweeper.checkMap()) {
+        while(minesweeper.checkMap() == false) {
             System.out.print("x(0~9) : ");
             int x = scanner.nextInt();
             System.out.print("y(0~9) : ");
@@ -97,7 +174,7 @@ public class Main {
                 System.out.println("Mine has exploded!!!");
                 break;
             } else {
-                System.out.println("There's a mine around : "+numOfMine);
+                System.out.println("There's a mane around : "+numOfMine);
                 minesweeper.printMap();
             }
         }
