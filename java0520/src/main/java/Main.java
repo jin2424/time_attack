@@ -120,17 +120,17 @@ class PlayerBTeam extends Player
 
         for(int i = 0; i < 4; i++) {
             if(number.charAt(i) == getInitNumber().charAt(i)) {
-                ball += 1;
+                strike += 1;
             } else {
                 if(number.indexOf(getInitNumber().charAt(i)) != -1){
-                    strike += 1;
+                    ball += 1;
                 } else {
                     out += 1;
                 }
             }
         }
 
-        if(ball == 4) {
+        if(strike == 4) {
             System.out.println("Congratulation!");
             super.setIsEnd(true);
         } else {
