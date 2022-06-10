@@ -20,7 +20,7 @@ public class Spring0610Application {
 
 			System.out.println("데이터 인쇄");
 			List<Course> courseList = courseRepository.findAll();
-			for (int i=0; i<courseList.size(); i++) {
+			for (int i=0; i<courseList.size(); i++) {123
 				Course course = courseList.get(i);
 				System.out.println(course.getId());
 				System.out.println(course.getTitle());
