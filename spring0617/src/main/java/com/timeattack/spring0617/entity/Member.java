@@ -1,9 +1,8 @@
 package com.timeattack.spring0617.entity;
 
 import javax.persistence.*;
-
-import com.example.spring0607.dto.RequestUpdateMemberDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.timeattack.spring0617.dto.RequestUpdateMemberDTO;
 import lombok.*;
 
 @Entity
